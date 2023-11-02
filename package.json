@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "net": "^1.0.2",
+    "websocket": "^1.0.34"
+  }
+}
