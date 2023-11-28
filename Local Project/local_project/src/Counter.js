@@ -82,7 +82,7 @@ const Counter = () => {
     if (counter3 > 0) {
       $('.indicator2').css('background-color', 'red');
     }
-    if (light == 0){
+    if (light === 0){
       $('.light').css('background', '#f9f981');
       $('.after').css('border-style', '')
       $('.after').css('border-color', '')
