@@ -2,82 +2,146 @@ import socket
 import datetime
 import json
 import re
+import time
+
+# Steps:
+# To use command prompts, start the MacOS Terminal app and enter one of the following commands: 
+# 1. “ipconfig getifaddr en1” - The system will return the IP address for a wired Ethernet connection. 
+# 2. “ipconfig getifaddr en0” - This will return the IP address of your wireless connection.
+
+
 
 class Server:
     # address = '192.168.137.39'
-    def __init__(self, esp32Dict = {"192.168.137.142": 0}, ip='192.168.137.45', port = 8000):
+    # the ip is your device's ip 
+    def __init__(self, windowDict = {"192.168.137.30": ['0', '0']}, ip='192.168.137.71', doorDict={'192.168.137.219': [0, 0]}, port = 8000):
         #self.password = password
         #self.address = address
         self.ip = ip
         self.port = port
-        self.esp32Dict = esp32Dict
+        self.windowDict = windowDict
+        self.doorDict = doorDict
+        self.people = 0
+        self.tempTime = -1
+        self.timeOnDoor2 = -1
+        self.timeOnDoor1 = -1
+        
+        
     
     def start(self):
-        # 建立一个服务端
+        
         server = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-        # 以下设置解决ctrl+c退出后端口号占用问题
         server.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
-
-        server.bind((self.ip, self.port)) #绑定要监听的地址（内网ip）和端口, I changed it to blank because I want the server to listen to any ip
-        server.listen(5) #开始监听 表示可以使用五个链接排队
+        server.bind((self.ip, self.port))
+        server.listen(5) 
         
         print("Started server")
         
-        while True:# conn就是客户端链接过来而在服务端为期生成的一个链接实例
-            conn,addr = server.accept() #等待链接,多个链接的时候就会出现问题,其实返回了两个值
-            print(conn, addr)
-
+        while True:# conn
+            conn,addr = server.accept() 
             
             try:
-                data = str(conn.recv(1024).decode())  #接收数据
+                data = str(conn.recv(1024).decode())  
                 if data:
                     print('Time:',datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-                    print('recive:',data)
+                    print('receive:',data)
+                    print()
     
-                    if self.esp32Connection(addr):
-                        self.readEsp32(addr, data)
+                    if self.windowConnection(addr):
+                        self.readWindow(addr, data)
+                    elif self.doorConnection(addr):
+                        self.readDoor(addr, data)
                     else:
                         self.checkCommands(data, conn)
             except ConnectionResetError as e:
-                print('关闭了正在占线的链接！/ closed busy link?')
+                print('closed busy link?')
                 break
             conn.close()
     
     # data should be data.decode()
     def checkCommands(self, data, conn):
-        if data == "GET_ALL":
-            self.getAll(conn)
-        # later if we want to go big
-        #elif data == "GET":
-        #    get(conn)
-        elif bool(re.search("^ADD", data)):
-            self.add(data)
+        if data == "GET_ALL_WINDOWS":
+            self.getAllWindows(conn)
+        elif data == "GET_ALL_DOORS":
+            self.getAllDoors(conn)
+        elif data == "GET_PEOPLE":
+            self.getPeopleCount(conn)
+        elif bool(re.search("^ADD_WINDOW", data)):
+            self.addWindow(data)
+        elif bool(re.search("^ADD_DOOR", data)):
+            self.addWindow(data)
+            
     
-    def esp32Connection(self, addr):
-        if addr[0] in self.esp32Dict:
+    def windowConnection(self, addr):
+        if addr[0] in self.windowDict:
+            return True
+        else:
+            return False
+        
+    def doorConnection(self, addr):
+        if addr[0] in self.doorDict:
             return True
         else:
             return False
     
-    def getAll(self, conn):
-        data_string = json.dumps(self.esp32Dict) #data serialized
-        print(self.esp32Dict)
+    def getPeopleCount(self, conn):
+        data_string = json.dumps(self.people) #data serialized
+        #print(self.doorDict)
         #data_loaded = json.loads(data) #data loaded
         conn.send(data_string.encode())
     
-    def add(self, data):
-        print(data)
-        newEsp32Addr = re.search("(?<=^ADD)[0-9\.]*", data).group(0)
-        self.esp32Dict[newEsp32Addr] = 0
+    def getAllWindows(self, conn):
+        data_string = json.dumps(self.windowDict) #data serialized
+        #print(self.doorDict)
+        #data_loaded = json.loads(data) #data loaded
+        conn.send(data_string.encode())
+        
+    def getAllDoors(self, conn):
+        data_string = json.dumps(self.doorDict) 
+        #print(self.doorDict)
+        conn.send(data_string.encode())
         
     
+    def addWindow(self, data):
+        #print(data)
+        newWindowAddr = re.search("(?<=^ADD_WINDOW)[0-9\.]*", data).group(0)
+        self.windowDict[newWindowAddr] = 0
+        
+    def addDoor(self, data):
+        newWindowAddr = re.search("(?<=^ADD_DOOR)[0-9\.]*", data).group(0)
+        self.doorDict[newWindowAddr] = 0
+        
     # data should be data.decode()
-    def readEsp32(self, addr, data):
-        self.esp32Dict[addr[0]] = re.search("(?<=Pressure:)[0-9]*", data).group(0)
-        print(self.esp32Dict)
-        #try:
-            #self.esp32Dict[conn[0]] = re.search("(?<=Pressure:)[0-9]*", data)
-            #conn.send("Successful".encode())
-        #except:
-         #   conn.send("Unsuccessful".encode())
+    def readDoor(self, addr, data):
+        if self.doorDict[addr[0]][1] == "1" and self.doorDict[addr[0]][0] == "1":
+            if re.search("(?<=Door_1:)[0-9]*", data) != None:
+                self.doorDict[addr[0]][0] = re.search("(?<=Door_1:)[0-9]*", data).group(0)
+            else:
+                self.doorDict[addr[0]][1] = re.search("(?<=Door_2:)[0-9]*", data).group(0)
+            
+            if self.doorDict[addr[0]][0] == "0":
+                self.people += self.convertDatetime(datetime.datetime.now()) - self.timeOnDoor1;
+            else:
+                self.people -= self.convertDatetime(datetime.datetime.now()) - self.timeOnDoor2;
+        else:
+            if re.search("(?<=Door_1:)[0-9]*", data) != None:
+                self.doorDict[addr[0]][0] = re.search("(?<=Door_1:)[0-9]*", data).group(0)
+                self.timeOnDoor1 = self.convertDatetime(datetime.datetime.now())
+                
+            if re.search("(?<=Door_2:)[0-9]*", data) != None:
+                self.doorDict[addr[0]][1] = re.search("(?<=Door_2:)[0-9]*", data).group(0)
+                self.timeOnDoor2 = self.convertDatetime(datetime.datetime.now())
+        
+    # data should be data.decode()
+    def readWindow(self, addr, data):
+        if re.search("(?<=Pressure_1:)[0-9]*", data) != None:
+            self.windowDict[addr[0]][0] = re.search("(?<=Pressure_1:)[0-9]*", data).group(0)
+        if re.search("(?<=Pressure_2:)[0-9]*", data) != None:
+            self.windowDict[addr[0]][1] = re.search("(?<=Pressure_2:)[0-9]*", data).group(0)
+            
+    def convertDatetime(self, dt):
+        return time.mktime((dt).timetuple()) + (dt).microsecond/1e6 
 
+    
+test = Server()
+test.start()
