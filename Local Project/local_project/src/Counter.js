@@ -2,7 +2,6 @@ import React, { useState, useEffect} from "react";
 import './Counter.css';
 import $ from "jquery";
 
-
 const Counter = () => {
   // useEffect(() => {
   //   // Fetch indicatorCount from your Flask server
@@ -16,14 +15,13 @@ const Counter = () => {
     // Fetch data from the ESP32 server periodically
     const fetchData = async () => {
       try {
-        const response = await fetch('172.20.10.2:8000/data'); // Replace with your ESP32 server's URL
+        const response = await fetch('10.12.255.255:8000/data'); // Replace with your ESP32 server's URL
         console.log(response.ok)
         if (response.ok) {
           const data = await response.json();
           console.log('fuck you', data);
           // Update the state with the received data
           setCounter1(data.counter1);
-
         } else {
           // Handle error
         }
@@ -82,13 +80,13 @@ const Counter = () => {
     if (counter3 > 0) {
       $('.indicator2').css('background-color', 'red');
     }
-    if (light === 0){
+    if (light > 0){
       $('.light').css('background', '#f9f981');
       $('.after').css('border-style', '')
       $('.after').css('border-color', '')
       $('.after').css('background', '#f9f981')
     }
-    if (light > 0){
+    if (light === 0){
       $('.after').css('border-style', 'solid')
       $('.after').css('border-color', 'black')
       $('.after').css('background', 'white')

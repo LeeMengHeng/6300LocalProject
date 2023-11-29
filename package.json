@@ -1,6 +1,17 @@
 {
   "dependencies": {
     "net": "^1.0.2",
-    "websocket": "^1.0.34"
-  }
+    "websocket": "^1.0.34",
+    "ws": "^8.14.2"
+  },
+  "name": "6300localproject",
+  "description": "",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
