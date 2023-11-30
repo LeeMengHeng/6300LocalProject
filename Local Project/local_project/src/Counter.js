@@ -57,48 +57,11 @@ const Counter = () => {
   //     client.destroy(); // kill client after server's response
   // });
 
-<<<<<<< HEAD
-  $('documnet').ready(function() {
-    var counter1 = 0;
-    var counter2 = 0;
-    var counter3 = 0;
-    var light = 1;
-    if (counter1 === 0) {
-      $('.indicator').css('background-color', 'lightgreen');
-    }
-    if (counter2 === 0) {
-      $('.indicator1').css('background-color', 'lightgreen');
-    }
-    if (counter3 === 0) {
-      $('.indicator2').css('background-color', 'lightgreen');
-    }
-    if (counter1 > 0) {
-      $('.indicator').css('background-color', 'red');
-    }
-    if (counter2 > 0) {
-      $('.indicator1').css('background-color', 'red');
-    }
-    if (counter3 > 0) {
-      $('.indicator2').css('background-color', 'red');
-    }
-    if (light > 0){
-      $('.light').css('background', '#f9f981');
-      $('.after').css('border-style', '')
-      $('.after').css('border-color', '')
-      $('.after').css('background', '#f9f981')
-    }
-    if (light === 0){
-      $('.after').css('border-style', 'solid')
-      $('.after').css('border-color', 'black')
-      $('.after').css('background', 'white')
-      $('.light').css('background', 'black');
-    }
-=======
 var stopBlinking = false;
-setTimeout(function() 
-{
-  stopBlinking = true;
-}, 8000);
+// setTimeout(function() 
+// {
+//   stopBlinking = true;
+// }, 8000);
 
 function blink(selector) {
     $(selector).fadeOut('slow', function() {
@@ -157,7 +120,6 @@ $('documnet').ready(function() {
   //   $('.after').css('background', 'white')
   //   $('.light').css('background', 'black');
   // }
->>>>>>> c1aeb88f258c5ed5d4088cbfb5a883ff687f4980
 });
   return (
 <div id="plan">
