@@ -8,14 +8,14 @@ class Client {
     this.client.connect({ port: port, host: host ?? "localhost" })
 
     this.client.on('connect', () => {
-      console.log('Connected to the server!');
+      //console.log('Connected to the server!');
       this.client.write(message);
     });
 
     this.client.on('data', (data) => {
-      console.log('Received data:', data.toString());
+      //console.log('Received data:', data.toString());
       const fs = require('fs');
-      fs.writeFile(message + '.txt', data, (err) => {
+      fs.writeFile("./src/" + message + '.txt', data, (err) => {
           if (err) {
               console.error('Error writing data to file:', err);
           } else {
@@ -30,7 +30,7 @@ class Client {
     });
     
    this.client.on('close', () => {
-    console.log('Connection closed.');
+    //console.log('Connection closed.');
     this.client.destroy();
     });
 
@@ -39,13 +39,11 @@ class Client {
 
   
 }
-
-
-host = "10.12.2.58"
+host = "192.168.137.181"
 var i = 0;
 function go () {
     var check = new Client(host, 8000, "GET_ALL_WINDOWS");
-    var check = new Client(host, 8000, "GET_ALL_DOORS");
+    //var check = new Client(host, 8000, "GET_ALL_DOORS");
     var check = new Client(host, 8000, "GET_PEOPLE");
     setTimeout(go, 2000); // callback
 }
