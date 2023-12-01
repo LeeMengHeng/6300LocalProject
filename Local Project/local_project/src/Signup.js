@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import db  from './Database'
 
 function Signup() {
     const navigate = useNavigate();
@@ -10,7 +9,6 @@ function Signup() {
     const handleSubmit = (event) => {
         event.preventDefault();
         // Handle the signup logic here
-        db(id, phoneNumber);
         console.log('ID:', id, 'Phone Number:', phoneNumber);
         // You might want to send this data to a server or use it in some other way
     };
