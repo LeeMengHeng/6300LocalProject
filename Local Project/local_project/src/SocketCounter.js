@@ -98,8 +98,7 @@ $('documnet').ready(function() {
 
 
   return (
-<div id="plan">
-  
+<div id="plan">  
   <div class="room">
     <div class="indicator"></div>
     <div class="indicator1"></div>
