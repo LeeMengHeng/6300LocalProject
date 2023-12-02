@@ -1,0 +1,21 @@
+.signup-page {
+    text-align: center;
+    margin-top: 300px;
+}
+
+.submit {
+    margin-bottom: 20px;
+}
+
+.input {
+    text-align: center;
+}
+
+button {
+    background-color: white;
+}
+
+button:hover {
+    background-color: grey;
+    transition: 0.2s;
+}
