@@ -1,16 +1,5 @@
-<<<<<<< HEAD
-import { io } from "socket.io-client";
 
-const socket = io("10.12.2.58");
 
-// send a message to the server
-socket.emit("GET_ALL_WINDOWS");
-
-// receive a message from the server
-socket.on("hello", (arg) => {
-    console.log(arg); // prints "world"
-});
-=======
 import React, {useState, useEffect} from "react";
 import './Counter.css';
 import $ from "jquery";
@@ -133,4 +122,4 @@ $('documnet').ready(function() {
 };
 
 export default SocketCounter;
->>>>>>> f545ac59f948def45e919ef76dc8aed03312c2fd
+
