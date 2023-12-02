@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Signup.css';
 
 function Signup() {
     const navigate = useNavigate();
@@ -21,14 +22,14 @@ function Signup() {
         <div className="signup-page">
             <form onSubmit={handleSubmit}>
                 <div>
-                    <input type="text"  value={id} placeholder="GTID" onChange={(e) => setId(e.target.value)}/>
+                    <input class="input-id" type="text"  value={id} placeholder="GTID" onChange={(e) => setId(e.target.value)}/>
                 </div>
                 <br />
                 <div>
-                    <input type="tel" value={phoneNumber} placeholder="Phone Number" onChange={(e) => setPhoneNumber(e.target.value)}/>
+                    <input class="input-phone" type="tel" value={phoneNumber} placeholder="Phone Number" onChange={(e) => setPhoneNumber(e.target.value)}/>
                 </div>
                 <br />
-                <button type="submit" onClick={handleSubmit}>Sign In</button>
+                <button class="submit" type="submit" onClick={handleSubmit}>Sign In</button>
             </form>
             <button type="button" onClick={handleNavigate}>Skip</button>
         </div>

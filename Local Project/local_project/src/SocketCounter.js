@@ -1,5 +1,4 @@
 
-
 import React, {useState, useEffect} from "react";
 import './Counter.css';
 import $ from "jquery";
@@ -122,4 +121,3 @@ $('documnet').ready(function() {
 };
 
 export default SocketCounter;
-
