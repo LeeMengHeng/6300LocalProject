@@ -29,7 +29,7 @@ function App() {
     <div>
       <Router>
         <Routes>
-          <Route path="/" element={<Signup />} />
+        <Route path="/" element={<Signup />} />
           <Route path="/socket-counter" element={<Counter />} />
         </Routes>
       </Router>
