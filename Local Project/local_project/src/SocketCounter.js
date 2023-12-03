@@ -29,7 +29,7 @@ const SocketCounter = () => {
     
       };
   
-    const interval = setInterval(readFile, 100); // Call readFile every 5 seconds (5000 milliseconds)
+    const interval = setInterval(readFile, 500); // Call readFile every 5 seconds (5000 milliseconds)
   
     // Clean up the interval when the component unmounts
     return () => clearInterval(interval);
@@ -38,8 +38,8 @@ const SocketCounter = () => {
 
 
   function blink(selector) {
-      $(selector).fadeOut('slow', function() {
-          $(this).fadeIn('slow', function() {
+      $(selector).fadeOut('fast', function() {
+          $(this).fadeIn('fast', function() {
               if (!stopBlinking)
               {
                   blink(this);
@@ -76,10 +76,10 @@ $('documnet').ready(function() {
   if (counter3 === 0) {
     $('.indicator2').css('background-color', 'red');
   }
-  if (light === 0){
+  if (light >= 0){
     $('.exc').css('color', 'white');
   }
-  if (light >= 1){
+  if (light === 0){
     $('.exc').css('color', 'red');
   }
   // if (light == 0){
