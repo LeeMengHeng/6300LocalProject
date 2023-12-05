@@ -45,7 +45,7 @@ function go () {
     var check = new Client(host, 8000, "GET_ALL_WINDOWS");
     //var check = new Client(host, 8000, "GET_ALL_DOORS");
     var check = new Client(host, 8000, "GET_PEOPLE");
-    setTimeout(go, 2000); // callback
+    setTimeout(go, 500); // callback
 }
 go();
 

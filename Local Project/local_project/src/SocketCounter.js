@@ -29,7 +29,7 @@ const SocketCounter = () => {
     
       };
   
-    const interval = setInterval(readFile, 3000); // Call readFile every 5 seconds (5000 milliseconds)
+    const interval = setInterval(readFile, 500); // Call readFile every 5 seconds (5000 milliseconds)
   
     // Clean up the interval when the component unmounts
     return () => clearInterval(interval);
@@ -38,8 +38,8 @@ const SocketCounter = () => {
 
 
   function blink(selector) {
-      $(selector).fadeOut('slow', function() {
-          $(this).fadeIn('slow', function() {
+      $(selector).fadeOut('fast', function() {
+          $(this).fadeIn('fast', function() {
               if (!stopBlinking)
               {
                   blink(this);
@@ -56,30 +56,30 @@ blink(".exc");
 $('documnet').ready(function() {
   var counter1 = parseInt(JSON.parse(fetchedWindowText)[0]);
   var counter2 = parseInt(JSON.parse(fetchedWindowText)[1]);
-  var counter3 = 0;
+  var counter3 = 100;
   var light = parseInt(fetchedPeopleText);
-  if (counter1 === 0) {
+  if (counter1 !== 0) {
     $('.indicator').css('background-color', 'lightgreen');
   }
-  if (counter2 === 0) {
+  if (counter2 !== 0) {
     $('.indicator1').css('background-color', 'lightgreen');
   }
-  if (counter3 === 0) {
+  if (counter3 !== 0) {
     $('.indicator2').css('background-color', 'lightgreen');
   }
-  if (counter1 > 0) {
+  if (counter1 === 0) {
     $('.indicator').css('background-color', 'red');
   }
-  if (counter2 > 0) {
+  if (counter2 === 0) {
     $('.indicator1').css('background-color', 'red');
   }
-  if (counter3 > 0) {
+  if (counter3 === 0) {
     $('.indicator2').css('background-color', 'red');
   }
-  if (light === 0){
+  if (light >= 0){
     $('.exc').css('color', 'white');
   }
-  if (light >= 1){
+  if (light === 0){
     $('.exc').css('color', 'red');
   }
   // if (light == 0){
