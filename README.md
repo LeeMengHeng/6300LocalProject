@@ -11,6 +11,15 @@ The application uses pressure sensors to provide real-time monitoring of window 
 
 ESP32 is used as the control center to drive other sensors to work, and at the same time, it uses WiFi to connect to the network and perform socket communication with the back-end server.
 
+## Back End Description
+The back end entails 
+
+* Window Detection:
+The application uses pressure sensors to provide real-time monitoring of window pressure data.
+
+* Human Detection:
+ This project uses pyroelectric infrared sensors to possibly view the entry and exit of classroom personnel under any lighting conditions.
+
 ## Front End Description
 
 This project is a web application developed using React.js. It includes several key components:
