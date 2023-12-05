@@ -1,4 +1,4 @@
-# Project Title
+# CS6300 Local Project
 ## Description
 
 This project is a web application developed using React.js. It includes several key components:
