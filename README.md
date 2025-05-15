@@ -1,4 +1,4 @@
-# CS6300 Local Project
+# ESG Project
 
 ## Hardware
 The hardware part is divided into window detection and human detection inside the classroom. 
